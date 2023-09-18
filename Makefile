@@ -6,7 +6,7 @@
 #    By: tmilcent <tmilcent@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/15 19:16:06 by tmilcent          #+#    #+#              #
-#    Updated: 2023/09/17 16:00:27 by tmilcent         ###   ########.fr        #
+#    Updated: 2023/09/18 02:13:34 by tmilcent         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ SRCS = 	src/main.c \
 		src/init/init_thread.c \
 		src/utils/utils.c \
 		src/utils/logs.c \
+		src/utils/mutex.c \
+		src/utils/mutex2.c \
 		src/actions/actions.c \
 
 OBJS = $(SRCS:.c=.o)

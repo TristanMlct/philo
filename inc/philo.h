@@ -6,7 +6,7 @@
 /*   By: tmilcent <tmilcent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 21:48:07 by tmilcent          #+#    #+#             */
-/*   Updated: 2023/09/17 17:30:12 by tmilcent         ###   ########.fr       */
+/*   Updated: 2023/09/18 02:49:11 by tmilcent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,17 @@ typedef struct s_philo
 
 	int				id;
 	int				eat_count;
+	pthread_mutex_t	eat_count_lock;
 	int				full;
 	long long		last_eat;
+	pthread_mutex_t	last_eat_lock;
 
 	pthread_mutex_t	*left_fork;
 	int				is_lf_locked;
+	pthread_mutex_t	lf_lock;
 	pthread_mutex_t	*right_fork;
 	int				is_rf_locked;
-
-	pthread_mutex_t	lock;
+	pthread_mutex_t	rf_lock;
 }					t_philo;
 
 typedef struct s_settings
@@ -54,6 +56,7 @@ typedef struct s_settings
 
 	long long		start_time;
 	int				stop;
+	pthread_mutex_t	stop_lock;
 	int				nb_full;
 
 	pthread_t		*tid;
@@ -68,11 +71,24 @@ long long	get_time(void);
 void		ft_usleep(long long time);
 
 // utils/logs.c
-void		log_death(long long curr_time, t_philo *philo);
+void		*log_death(long long curr_time, t_philo *philo);
 void		log_take_fork(t_philo *philo);
 void		log_eat(t_philo *philo);
 void		log_sleep(t_philo *philo);
 void		log_think(t_philo *philo);
+
+// utils/mutex.c
+int			get_stop_lock(t_settings *settings);
+void		set_stop_lock(t_settings *settings, int stop);
+int			get_eat_count_lock(t_philo *philo);
+long long	get_last_eat_lock(t_philo *philo);
+void		destroy_mutex(t_settings *settings);
+
+// utils/mutex2.c
+int			get_lf_lock(t_philo *philo);
+int			get_rf_lock(t_philo *philo);
+void		set_lf_lock(t_philo *philo, int value);
+void		set_rf_lock(t_philo *philo, int value);
 
 // init/init_structs.c
 int			init_data(t_settings *settings, int ac, char **av);

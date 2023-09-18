@@ -6,7 +6,7 @@
 /*   By: tmilcent <tmilcent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 19:28:09 by tmilcent          #+#    #+#             */
-/*   Updated: 2023/09/17 16:27:19 by tmilcent         ###   ########.fr       */
+/*   Updated: 2023/09/17 23:25:13 by tmilcent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	main(int ac, char **av)
 		return (1);
 	if (init_thread(&settings))
 		return (1);
+	destroy_mutex(&settings);
 	free_plus_plus(&settings);
 	return (0);
 }

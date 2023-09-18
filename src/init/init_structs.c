@@ -6,7 +6,7 @@
 /*   By: tmilcent <tmilcent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 22:39:11 by tmilcent          #+#    #+#             */
-/*   Updated: 2023/09/17 17:31:59 by tmilcent         ###   ########.fr       */
+/*   Updated: 2023/09/18 02:06:21 by tmilcent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	init_settings(t_settings *settings, int ac, char **av)
 	settings->philo = NULL;
 	settings->forks = NULL;
 	pthread_mutex_init(&settings->log_lock, NULL);
+	pthread_mutex_init(&settings->stop_lock, NULL);
 	return (0);
 }
 
@@ -49,6 +50,15 @@ static void	init_forks(t_settings *settings)
 		settings->philo[i].left_fork = &settings->forks[i];
 		settings->philo[i].right_fork = &settings->forks[(i + 1) \
 										% settings->nb_philo];
+		i++;
+	}
+	i = 0;
+	while (++i < settings->nb_philo)
+	{
+		settings->philo[i].right_fork = &settings->forks[i];
+		settings->philo[i].left_fork = &settings->forks[(i + 1) \
+										% settings->nb_philo];
+		i++;
 	}
 }
 
@@ -66,6 +76,10 @@ static void	init_philo(t_settings *settings)
 		settings->philo[i].full = 0;
 		settings->philo[i].is_lf_locked = 0;
 		settings->philo[i].is_rf_locked = 0;
+		pthread_mutex_init(&settings->philo[i].eat_count_lock, NULL);
+		pthread_mutex_init(&settings->philo[i].last_eat_lock, NULL);
+		pthread_mutex_init(&settings->philo[i].lf_lock, NULL);
+		pthread_mutex_init(&settings->philo[i].rf_lock, NULL);
 	}
 }
 

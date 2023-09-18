@@ -6,31 +6,31 @@
 /*   By: tmilcent <tmilcent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 12:39:21 by tmilcent          #+#    #+#             */
-/*   Updated: 2023/09/17 17:10:00 by tmilcent         ###   ########.fr       */
+/*   Updated: 2023/09/18 02:49:37 by tmilcent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/philo.h"
 
-void	log_death(long long curr_time, t_philo *philo)
+void	*log_death(long long curr_time, t_philo *philo)
 {
 	pthread_mutex_lock(&philo->settings->log_lock);
-	if (philo->settings->stop == 1)
+	if (get_stop_lock(philo->settings) == 1)
 	{
 		pthread_mutex_unlock(&philo->settings->log_lock);
-		return ;
+		return (NULL);
 	}
 	printf("%lld %d died\n", curr_time - philo->settings->start_time,
 		philo->id);
-	philo->settings->stop = 1;
+	set_stop_lock(philo->settings, 1);
 	pthread_mutex_unlock(&philo->settings->log_lock);
-	drop_forks(philo);
+	return (NULL);
 }
 
 void	log_take_fork(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->settings->log_lock);
-	if (philo->settings->stop == 1)
+	if (get_stop_lock(philo->settings) == 1)
 	{
 		pthread_mutex_unlock(&philo->settings->log_lock);
 		return ;
@@ -43,7 +43,7 @@ void	log_take_fork(t_philo *philo)
 void	log_eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->settings->log_lock);
-	if (philo->settings->stop == 1)
+	if (get_stop_lock(philo->settings) == 1)
 	{
 		pthread_mutex_unlock(&philo->settings->log_lock);
 		return ;
@@ -56,7 +56,7 @@ void	log_eat(t_philo *philo)
 void	log_sleep(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->settings->log_lock);
-	if (philo->settings->stop == 1)
+	if (get_stop_lock(philo->settings) == 1)
 	{
 		pthread_mutex_unlock(&philo->settings->log_lock);
 		return ;
@@ -69,7 +69,7 @@ void	log_sleep(t_philo *philo)
 void	log_think(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->settings->log_lock);
-	if (philo->settings->stop == 1)
+	if (get_stop_lock(philo->settings) == 1)
 	{
 		pthread_mutex_unlock(&philo->settings->log_lock);
 		return ;

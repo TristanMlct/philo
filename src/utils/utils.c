@@ -6,7 +6,7 @@
 /*   By: tmilcent <tmilcent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 22:44:45 by tmilcent          #+#    #+#             */
-/*   Updated: 2023/09/17 17:05:17 by tmilcent         ###   ########.fr       */
+/*   Updated: 2023/09/18 02:29:46 by tmilcent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,5 @@ void	ft_usleep(long long time)
 
 	start = get_time();
 	while (get_time() - start < time)
-		usleep(1000);
+		usleep(100);
 }
